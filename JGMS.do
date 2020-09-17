@@ -43,7 +43,7 @@ est store srh
 qui logit adl i.nmar `med' `con' if women==0,vce(robust)
 margins, dydx(nmar) post
 est store adl
-qui nbreg chronic i.nmar `med' `con' if women==0,vce(robust)
+qui nbreg chronic i.nmar `med' `con' if women==0,vce(robust) difficult technique(bhhh)
 margins, dydx(nmar) post
 est store chronic
 qui logit obese i.nmar `med' `con' if women==0,vce(robust)
@@ -62,7 +62,7 @@ est store srh0
 qui logit adl i.nmar `con' if women==0,vce(robust)
 margins, dydx(nmar) post
 est store adl0
-qui nbreg chronic i.nmar `con' if women==0,vce(robust)
+qui nbreg chronic i.nmar `con' if women==0,vce(robust) difficult technique(bhhh)
 margins, dydx(nmar) post
 est store chronic0
 qui logit obese i.nmar `con' if women==0,vce(robust)
