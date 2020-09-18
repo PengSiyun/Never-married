@@ -1,6 +1,6 @@
 ****Priject: Never Married vs. Continuously married
 ****Author:  Siyun Peng
-****Date:    2020/03/16
+****Date:    2020/09/18
 ****Version: 16.1
 ****Purpose: data analysis by gender
 
@@ -618,6 +618,57 @@ local 	med 	"i.smok i.phya i.drink finc lone life"     // all mediators
 
 mi est, cmdok: khb logit adl i.nmar || `med' if women==1, c(`con') summary  vce(robust) d //khb is not officially supported by mi est
 
+
+************************************************************************
+*Differences in Marital resources (Table A1)
+************************************************************************
+local con "age i.race i.edu chsrh" 
+
+qui mlogit phya i.nmar `con' if women==0,vce(robust) 
+margins, dydx(nmar) post
+est store phya
+qui mlogit smok i.nmar `con' if women==0,vce(robust) 
+margins, dydx(nmar) post
+est store smok
+qui mlogit drink i.nmar `con' if women==0,vce(robust) 
+margins, dydx(nmar) post
+est store drink
+
+qui mlogit phya i.nmar `con' if women==1,vce(robust) 
+margins, dydx(nmar) post
+est store phyaw
+qui mlogit smok i.nmar `con' if women==1,vce(robust) 
+margins, dydx(nmar) post
+est store smokw
+qui mlogit drink i.nmar `con' if women==1,vce(robust) 
+margins, dydx(nmar) post
+est store drinkw
+
+qui reg finc i.nmar `con' if women==0,vce(robust)  
+margins,dydx(nmar) post
+est store finc
+qui reg lone i.nmar `con' if women==0,vce(robust) 
+margins,dydx(nmar) post
+est store lone
+qui reg life i.nmar `con' if women==0,vce(robust) 
+margins,dydx(nmar) post
+est store life
+qui reg finc i.nmar `con' if women==1,vce(robust)  
+margins,dydx(nmar) post
+est store fincw
+qui reg lone i.nmar `con' if women==1,vce(robust) 
+margins,dydx(nmar) post
+est store lonew
+qui reg life i.nmar `con' if women==1,vce(robust) 
+margins,dydx(nmar) post
+est store lifew
+
+
+esttab phya smok drink finc lone life phyaw smokw drinkw fincw lonew lifew ///
+  using ~/desktop/Resources.csv, replace label nobaselevels b(%5.3f) ///
+  se(%5.3f) star nogap ///
+  mtitle("Physical activities""Smoking""drinking""Finance""Loneliness""Life Purpose") ///
+  title("Table Marital Resources-gender")
 
 ************************************************************************
 * All marital status
